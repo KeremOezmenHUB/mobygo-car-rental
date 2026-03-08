@@ -6,13 +6,13 @@
 **Group Members & Contributions:**
 1. **Ifin Anwar** - [Detailed contribution: Frontend Implementation (Budibase), UX/UI Design]
 2. **Bajram Kurto Elezi** - [Detailed contribution: Backend Architecture, Spring Boot, Business Logic]
-3. **Kerem Özmen** - [Detailed contribution:Database Schema (H2), Basic Auth Security, OpenAPI Documentation]
+3. **Kerem Özmen** - [Detailed contribution: Database Schema (H2), Basic Auth Security, OpenAPI Documentation]
 
 **Project Deliverables & Links:**
-* **Presentation Video (Max 10 min):** [Insert Link to MS Stream/SWITCHtube/YouTube here]
-* **Deployed Web Application (GitHub Codespaces):** [Insert Link here]
-* **OpenAPI Documentation (Swagger):** [Insert Link here]
-* **Frontend Export Link:** [Insert Budibase export link here]
+* **Presentation Video (Max 10 min):** [LINK:...]
+* **Deployed Web Application (GitHub Codespaces):** [LINK:...]
+* **OpenAPI Documentation (Swagger):** [LINK:...]
+* **Frontend Export Link:** [LINK:...]
 
 ---
 
