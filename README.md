@@ -4,10 +4,9 @@
 **Module:** Internet Technology.
 
 **Group Members & Contributions:**
-* **[Student 1 Name]** - [Detailed contribution, e.g., Frontend Implementation (Budibase), UX/UI Design]
-* **[Student 2 Name]** - [Detailed contribution, e.g., Backend Architecture, Spring Boot, Business Logic]
-* **[Student 3 Name]** - [Detailed contribution, e.g., Database Schema (H2), Basic Auth Security, OpenAPI Documentation]
-*(Note: The names of the group work members and their contribution must be disclosed in the documentation.)*
+1. **Ifin Anwar** - [Detailed contribution: Frontend Implementation (Budibase), UX/UI Design]
+2. **Bajram Kurto Elezi** - [Detailed contribution: Backend Architecture, Spring Boot, Business Logic]
+3. **Kerem Özmen** - [Detailed contribution:Database Schema (H2), Basic Auth Security, OpenAPI Documentation]
 
 **Project Deliverables & Links:**
 * **Presentation Video (Max 10 min):** [Insert Link to MS Stream/SWITCHtube/YouTube here]
