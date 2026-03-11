@@ -44,13 +44,13 @@ To fulfill the requirement of at least four entities, our database schema consis
 ---
 
 ## 3. Frontend Implementation
-**Design and Realization:**
-The frontend is implemented using **Budibase**, a recommended low-code app design tool. The design focuses on a consistent identity, adequate user experience, responsive layout, and well-chosen typography. 
+**Design and Realization (Pro-Code Approach):**
+As discussed and confirmed with our lecturer during the first coaching session, we have opted for a more code-based (full-code) approach rather than using a low-code tool. The frontend is implemented using HTML, CSS, and JavaScript (integrated with our Spring Boot backend). This technical choice allows us to have deeper, fine-grained control over the DOM, a more seamless integration with our custom REST APIs, and the ability to build a highly responsive, custom UI from scratch. The design focuses on a consistent identity, adequate user experience, and well-chosen typography.
 
 **Key Views (Meeting the minimum 4 views requirement):**
-1.  **Public Car Catalog (List View):** Displays available vehicles and their home stations for public users.
-2.  **Admin Fleet Dashboard (List View):** Allows admins to monitor all cars and their current statuses.
-3.  **Vehicle Management (Create/Edit View):** A form interface for admins to add new vehicles to the database or edit existing ones.
+1.  **Public Car Catalog (List View):** A dynamic interface that fetches and displays available vehicles and their home stations for public users.
+2.  **Admin Fleet Dashboard (List View):** A secure control panel allowing admins to monitor all cars and their current statuses.
+3.  **Vehicle Management (Create/Edit View):** A form-based interface for admins to add new vehicles to the database or edit existing ones.
 4.  **User Booking History (List View):** A personalized view for authenticated users to see their past and active reservations.
 
 ---
