@@ -15,7 +15,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bookings")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(
+        origins = {"http://localhost:3000", "http://localhost:5500", "http://127.0.0.1:5500"},
+        allowedHeaders = {"Authorization", "Content-Type"},
+        exposedHeaders = {"Authorization", "WWW-Authenticate"},
+        allowCredentials = "true",
+        maxAge = 3600
+)
 public class BookingController {
 
     @Autowired

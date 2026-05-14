@@ -1,5 +1,6 @@
 package com.mobygo.car_rental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class User {
     private String role; // e.g., ADMIN, USER
 
     // One user can have multiple bookings
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 

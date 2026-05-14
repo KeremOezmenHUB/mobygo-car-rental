@@ -1,5 +1,6 @@
 package com.mobygo.car_rental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Station {
     private String address;
 
     // A station can have multiple cars
+    @JsonIgnore
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL)
     private List<Car> cars;
 
