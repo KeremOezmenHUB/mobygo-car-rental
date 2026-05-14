@@ -8,9 +8,9 @@
 </head>
 <body>
     <nav>
-        <div class="logo">Moby<span>Go</span></div>
+        <a href="index.html" class="logo">Moby<span>Go</span></a>
         <ul>
-            <li><a href="admin-dashboard.html">← Dashboard</a></li>
+            <li><a href="admin-dashboard.html">&#8592; Dashboard</a></li>
         </ul>
     </nav>
 
@@ -25,24 +25,24 @@
                 <form id="carForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>License Plate</label>
-                            <input type="text" name="licensePlate" placeholder="e.g. ZH-100234" required>
+                            <label for="licensePlate">License Plate</label>
+                            <input type="text" id="licensePlate" name="licensePlate" placeholder="e.g. ZH-100234" required>
                         </div>
                         <div class="form-group">
-                            <label>Category</label>
-                            <select name="category">
-                                <option value="Electric">Electric</option>
-                                <option value="Hybrid">Hybrid</option>
-                                <option value="City">City Compact</option>
+                            <label for="category">Category</label>
+                            <select id="category" name="category">
+                                <option value="Electric">&#9889; Electric</option>
+                                <option value="Hybrid">&#9881; Hybrid</option>
+                                <option value="City">&#127749; City</option>
                             </select>
                         </div>
                         <div class="form-group span-2">
-                            <label>Model Name</label>
-                            <input type="text" name="model" placeholder="e.g. Tesla Model 3" required>
+                            <label for="model">Model Name</label>
+                            <input type="text" id="model" name="model" placeholder="e.g. Tesla Model 3" required>
                         </div>
                         <div class="form-group">
-                            <label>Station ID</label>
-                            <input type="number" name="stationId" placeholder="e.g. 1" required>
+                            <label for="stationId">Station ID</label>
+                            <input type="number" id="stationId" name="stationId" placeholder="e.g. 1" min="1" required>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -54,8 +54,8 @@
         </div>
     </div>
 
+    <div id="toast-container"></div>
     <footer>&copy; 2025 <span>MobyGo</span> &mdash; Admin Panel</footer>
-
     <script src="app.js"></script>
 </body>
 </html>

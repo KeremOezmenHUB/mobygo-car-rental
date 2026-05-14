@@ -1,0 +1,43 @@
+{
+  "name": "MobyGo Car Rental",
+  "image": "mcr.microsoft.com/devcontainers/java:21-jdk-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "21",
+      "installMaven": true,
+      "mavenVersion": "3.9"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
+  },
+  "forwardPorts": [8080, 5500],
+  "portsAttributes": {
+    "8080": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5500": {
+      "label": "Frontend",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-spring-initializr",
+        "vscjava.vscode-spring-boot-dashboard",
+        "ritwickdey.LiveServer",
+        "humao.rest-client"
+      ],
+      "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "spring-boot.ls.java.home": "/usr/local/sdkman/candidates/java/current"
+      }
+    }
+  },
+  "remoteUser": "vscode"
+}
