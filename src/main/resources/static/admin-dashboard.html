@@ -2,24 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MobyGo Admin | Fleet Management</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
-        <div class="logo">Moby<span>Go</span> Admin</div>
+        <div class="logo">Moby<span>Go</span></div>
         <ul>
             <li><a href="index.html">View Site</a></li>
-            <li><a href="car-form.html">Add New Car</a></li>
+            <li><a href="car-form.html">+ Add Car</a></li>
         </ul>
     </nav>
 
+    <div class="page-header">
+        <h1>Fleet Management</h1>
+        <p>Overview and control of all MobyGo vehicles</p>
+    </div>
+
     <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center">
-            <h1>Fleet Overview</h1>
-            <button onclick="location.href='car-form.html'">+ Add Vehicle</button>
-        </div>
-        <div class="table-container">
+        <div class="stats-grid" id="stats-grid"></div>
+
+        <div class="table-wrap">
+            <div class="table-top">
+                <h2>All Vehicles</h2>
+                <a href="car-form.html" class="btn btn-primary" style="text-decoration:none; padding: 8px 18px; font-size:0.85rem">+ Add Vehicle</a>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -31,11 +39,13 @@
                         <th>Station</th>
                     </tr>
                 </thead>
-                <tbody id="admin-table-body">
-                </tbody>
+                <tbody id="admin-table-body"></tbody>
             </table>
         </div>
     </div>
+
+    <footer>&copy; 2025 <span>MobyGo</span> &mdash; Admin Panel</footer>
+
     <script src="app.js"></script>
 </body>
 </html>

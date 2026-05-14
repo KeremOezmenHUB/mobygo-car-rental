@@ -2,41 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MobyGo | Add Vehicle</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
         <div class="logo">Moby<span>Go</span></div>
+        <ul>
+            <li><a href="admin-dashboard.html">← Dashboard</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
+    <div class="page-header">
         <h1>Register New Vehicle</h1>
-        <form id="carForm">
-            <div class="form-group">
-                <label>License Plate</label>
-                <input type="text" name="licensePlate" placeholder="e.g. ZH-100234" required>
-            </div>
-            <div class="form-group">
-                <label>Model Name</label>
-                <input type="text" name="model" placeholder="e.g. Tesla Model 3" required>
-            </div>
-            <div class="form-group">
-                <label>Category</label>
-                <select name="category">
-                    <option value="Electric">Electric</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="City">City Compact</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Station ID</label>
-                <input type="number" name="stationId" placeholder="e.g. 1" required>
-            </div>
-            <button type="submit">Save Vehicle</button>
-            <button type="button" onclick="history.back()" style="background: #ccc; color: #333; margin-left: 10px">Cancel</button>
-        </form>
+        <p>Add a new car to the MobyGo fleet</p>
     </div>
+
+    <div class="container">
+        <div class="form-wrap">
+            <div class="form-card">
+                <form id="carForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>License Plate</label>
+                            <input type="text" name="licensePlate" placeholder="e.g. ZH-100234" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select name="category">
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="City">City Compact</option>
+                            </select>
+                        </div>
+                        <div class="form-group span-2">
+                            <label>Model Name</label>
+                            <input type="text" name="model" placeholder="e.g. Tesla Model 3" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Station ID</label>
+                            <input type="number" name="stationId" placeholder="e.g. 1" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Save Vehicle</button>
+                        <button type="button" onclick="history.back()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; 2025 <span>MobyGo</span> &mdash; Admin Panel</footer>
+
     <script src="app.js"></script>
 </body>
 </html>
