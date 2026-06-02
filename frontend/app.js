@@ -33,10 +33,8 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
     const options = { method, headers: { 'Content-Type': 'application/json' } };
     if (body) options.body = JSON.stringify(body);
 
-    // Include Basic Auth for mutating operations
-    if (['POST', 'PUT', 'DELETE'].includes(method)) {
-        options.headers['Authorization'] = 'Basic ' + btoa('admin:admin123');
-    }
+    // NEU: Wir nutzen hier unseren neuen Datenbank-Nutzer (wird später durch echtes Login ersetzt)
+    options.headers['Authorization'] = 'Basic ' + btoa('admin@mobygo.com:admin123');
 
     const res = await fetch(`${API}${endpoint}`, options);
     if (!res.ok) {
@@ -500,4 +498,36 @@ async function initStationsPage() {
  * ───────────────────────────────────────────────────────────────────────── */
 function escHtml(str) {
     return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+// Modal öffnen
+function openRegisterModal() {
+    document.getElementById('register-modal').classList.add('open');
+}
+
+// Modal schliessen
+function closeRegisterModal() {
+    document.getElementById('register-modal').classList.remove('open');
+}
+
+// Registrierung an das Backend senden
+async function submitRegistration() {
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const errEl = document.getElementById('reg-error');
+
+    try {
+        const res = await fetch(`${API}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        toast('Registrierung erfolgreich! Bitte logge dich ein.');
+        closeRegisterModal();
+    } catch (e) {
+        errEl.textContent = e.message;
+        errEl.style.display = 'block';
+    }
 }

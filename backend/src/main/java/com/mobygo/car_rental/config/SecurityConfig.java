@@ -2,20 +2,18 @@ package com.mobygo.car_rental.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -24,48 +22,54 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
-                .authorizeHttpRequests(auth -> auth
+                .cors(withDefaults()) // Aktiviert CORS
+                .csrf(csrf -> csrf.disable()) // Deaktiviert CSRF für die API
+                .authorizeHttpRequests(authz -> authz
+                        // Öffentlich zugängliche Routen
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cars", "/api/stations").permitAll()
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/api/cars").permitAll()
+                        // Erlaube Anfragen zur Authentifizierung (Login/Register)
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // Alles andere muss authentifiziert sein
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                // H2 Console Frames erlauben
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+
+                // Standard Basic Authentication nutzen (wird später durch JWT ersetzt)
+                .httpBasic(withDefaults());
 
         return http.build();
     }
 
-    /**
-     * Allows all origins so the standalone frontend works both locally
-     * (file://, localhost:5500) and in GitHub Codespaces (*.app.github.dev).
-     */
+    // CORS Konfiguration: Wer darf auf das Backend zugreifen?
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setExposedHeaders(List.of("Authorization"));
-        config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // HIER IST DER NEUE INTELLIJ-PORT EINGEFÜGT:
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:63342",
+                "http://localhost:5500",
+                "http://127.0.0.1:5500",
+                "http://localhost:3000"
+        ));
+
+        // Erlaube alle wichtigen HTTP-Methoden
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Erlaube alle Header
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        // Wichtig für Authentifizierung (später für Cookies/Tokens)
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", configuration); // Wende CORS auf alle Routen an
         return source;
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}admin123")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

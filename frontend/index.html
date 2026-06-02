@@ -5,93 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MobyGo | Find Your Ride</title>
     <link rel="stylesheet" href="style.css">
+    <button class="btn btn-ghost" onclick="openRegisterModal()">Registrieren</button>
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="logo">Moby<span>Go</span></a>
-        <ul>
-            <li><a href="index.html" class="active">Fleet</a></li>
-            <li><a href="user-bookings.html">My Bookings</a></li>
-            <li><a href="stations.html">Stations</a></li>
-            <li><a href="admin-dashboard.html">Admin</a></li>
-        </ul>
-    </nav>
+<nav>
+    <a href="index.html" class="logo">Moby<span>Go</span></a>
+    <ul>
+        <li><a href="index.html" class="active">Fleet</a></li>
+        <li><a href="user-bookings.html">My Bookings</a></li>
+        <li><a href="stations.html">Stations</a></li>
+        <li><a href="admin-dashboard.html">Admin</a></li>
+    </ul>
+    <button class="btn btn-ghost" onclick="openRegisterModal()" style="margin-left: 20px;">Registrieren</button>
+</nav>
 
-    <section class="hero">
-        <h1>Find Your Perfect <span>Ride</span></h1>
-        <p>Sustainable, modern mobility across Switzerland. Electric, hybrid &amp; city cars — available now.</p>
-        <div class="hero-stats">
-            <div class="hero-stat">
-                <div class="number" id="stat-total">—</div>
-                <div class="label">Total Fleet</div>
-            </div>
-            <div class="hero-stat">
-                <div class="number" id="stat-available">—</div>
-                <div class="label">Available Now</div>
-            </div>
-            <div class="hero-stat">
-                <div class="number">4</div>
-                <div class="label">Stations</div>
-            </div>
+<section class="hero">
+    <h1>Find Your Perfect <span>Ride</span></h1>
+    <p>Sustainable, modern mobility across Switzerland. Electric, hybrid &amp; city cars — available now.</p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="number" id="stat-total">—</div>
+            <div class="label">Total Fleet</div>
         </div>
-    </section>
-
-    <div class="filter-bar">
-        <span class="filter-label">Filter:</span>
-        <button class="filter-btn active" data-filter="all">All Cars</button>
-        <button class="filter-btn" data-filter="Electric">&#9889; Electric</button>
-        <button class="filter-btn" data-filter="Hybrid">&#9881; Hybrid</button>
-        <button class="filter-btn" data-filter="City">&#127749; City</button>
-    </div>
-
-    <div class="container">
-        <div class="section-header">
-            <h2>Available Fleet</h2>
-            <span class="count-pill" id="car-count">Loading&hellip;</span>
+        <div class="hero-stat">
+            <div class="number" id="stat-available">—</div>
+            <div class="label">Available Now</div>
         </div>
-        <div id="car-grid" class="grid"></div>
+        <div class="hero-stat">
+            <div class="number">4</div>
+            <div class="label">Stations</div>
+        </div>
     </div>
+</section>
 
-    <!-- Booking Modal -->
-    <div id="booking-modal" class="modal-backdrop" role="dialog" aria-modal="true">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Book <span id="modal-car-name"></span></h3>
-                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="booking-form">
-                    <input type="hidden" id="modal-car-id">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="modal-start">Start Date</label>
-                            <input type="date" id="modal-start" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="modal-end">End Date</label>
-                            <input type="date" id="modal-end" required>
-                        </div>
-                        <div class="form-group span-2">
-                            <label for="modal-user">User ID</label>
-                            <input type="number" id="modal-user" value="2" min="1" required>
-                        </div>
+<div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" data-filter="all">All Cars</button>
+    <button class="filter-btn" data-filter="Electric">&#9889; Electric</button>
+    <button class="filter-btn" data-filter="Hybrid">&#9881; Hybrid</button>
+    <button class="filter-btn" data-filter="City">&#127749; City</button>
+</div>
+
+<div class="container">
+    <div class="section-header">
+        <h2>Available Fleet</h2>
+        <span class="count-pill" id="car-count">Loading&hellip;</span>
+    </div>
+    <div id="car-grid" class="grid"></div>
+</div>
+
+<div id="booking-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Book <span id="modal-car-name"></span></h3>
+            <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="booking-form">
+                <input type="hidden" id="modal-car-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="modal-start">Start Date</label>
+                        <input type="date" id="modal-start" required>
                     </div>
-                    <div id="price-preview" class="price-preview" style="display:none">
-                        <span class="price-label">Estimated total</span>
-                        <span class="price-amount" id="price-amount"></span>
+                    <div class="form-group">
+                        <label for="modal-end">End Date</label>
+                        <input type="date" id="modal-end" required>
                     </div>
-                    <div id="booking-error" class="error-msg" style="display:none"></div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitBooking()">Confirm Booking</button>
-            </div>
+                    <div class="form-group span-2">
+                        <label for="modal-user">User ID</label>
+                        <input type="number" id="modal-user" value="2" min="1" required>
+                    </div>
+                </div>
+                <div id="price-preview" class="price-preview" style="display:none">
+                    <span class="price-label">Estimated total</span>
+                    <span class="price-amount" id="price-amount"></span>
+                </div>
+                <div id="booking-error" class="error-msg" style="display:none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="submitBooking()">Confirm Booking</button>
         </div>
     </div>
+</div>
 
-    <div id="toast-container"></div>
-    <footer>&copy; 2025 <span>MobyGo</span> &mdash; Sustainable Mobility for Switzerland</footer>
-    <script src="app.js"></script>
+<div id="register-modal" class="modal">
+    <div class="modal-content">
+        <h2>Konto erstellen</h2>
+        <input type="email" id="reg-email" placeholder="E-Mail Adresse" required>
+        <input type="password" id="reg-password" placeholder="Passwort" required>
+        <div id="reg-error" class="error-msg" style="display:none; color:red; margin-bottom:10px;"></div>
+        <button class="btn btn-primary" onclick="submitRegistration()">Registrieren</button>
+        <button class="btn btn-ghost" onclick="closeRegisterModal()">Abbrechen</button>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+<footer>&copy; 2025 <span>MobyGo</span> &mdash; Sustainable Mobility for Switzerland</footer>
+<script src="app.js"></script>
 </body>
 </html>

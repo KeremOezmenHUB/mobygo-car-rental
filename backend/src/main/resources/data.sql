@@ -8,12 +8,6 @@ INSERT INTO stations (name, city, address) VALUES
 ('MobyGo Bern',           'Bern',   'Marktgasse 25, 3011 Bern'),
 ('MobyGo Genf',           'Genf',   'Rue du Mont-Blanc 100, 1201 Genf');
 
--- ── Users ─────────────────────────────────────────────────────────────────
-INSERT INTO app_users (first_name, last_name, email, role) VALUES
-('Max',    'Müller',  'max.mueller@mobygo.ch',  'USER'),
-('Anna',   'Schmidt', 'anna.schmidt@mobygo.ch', 'USER'),
-('Peter',  'Keller',  'peter.keller@mobygo.ch', 'ADMIN'),
-('Sandra', 'Weber',   'sandra.weber@mobygo.ch', 'USER');
 
 -- ── Cars — Zürich-City (Station 1) ────────────────────────────────────────
 INSERT INTO cars (license_plate, model, category, status, station_id) VALUES
@@ -41,16 +35,3 @@ INSERT INTO cars (license_plate, model, category, status, station_id) VALUES
 ('GE-400001', 'Skoda Enyaq',     'Electric', 'Available', 4),
 ('GE-400002', 'Honda Jazz Hybrid','Hybrid',  'Available', 4);
 
--- ── Sample Bookings ───────────────────────────────────────────────────────
--- Car 3 (RAV4 Hybrid, Rented) booked by Max
-INSERT INTO bookings (start_date, end_date, total_price, user_id, car_id) VALUES
-('2025-05-10', '2025-05-15', 250.00, 1, 3);
-
--- Car 7 (Renault Zoe, Rented) booked by Anna
-INSERT INTO bookings (start_date, end_date, total_price, user_id, car_id) VALUES
-('2025-05-12', '2025-05-14', 100.00, 2, 7);
-
--- Completed bookings for history view (user 2 = Anna)
-INSERT INTO bookings (start_date, end_date, total_price, user_id, car_id) VALUES
-('2025-04-01', '2025-04-05', 200.00, 2, 1),
-('2025-04-20', '2025-04-22', 100.00, 2, 6);

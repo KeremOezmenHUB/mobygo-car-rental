@@ -15,10 +15,10 @@ public class Booking {
     private LocalDate endDate;
     private Double totalPrice;
 
-    // Many bookings can belong to one user
+    // Many bookings can belong to one user (Hier ist die neue AppUser-Verknüpfung)
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 
     // Many bookings can be made for one car (over time)
     @ManyToOne
@@ -59,11 +59,13 @@ public class Booking {
         this.totalPrice = totalPrice;
     }
 
-    public User getUser() {
+    // Angepasster Getter für AppUser
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    // Angepasster Setter für AppUser
+    public void setUser(AppUser user) {
         this.user = user;
     }
 
