@@ -1,0 +1,61 @@
+:root {
+  --mg-primary: #1e3a5f;
+  --mg-accent:  #e63946;
+  --mg-light:   #f8f9fa;
+}
+
+body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+
+/* Navbar */
+.navbar { background-color: var(--mg-primary) !important; }
+.navbar-brand { font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; }
+.navbar-brand span { color: var(--mg-accent); }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, var(--mg-primary) 0%, #2d6a9f 100%);
+  color: white;
+  padding: 4rem 0 3rem;
+}
+.hero h1 { font-size: 2.5rem; font-weight: 700; }
+.hero p  { font-size: 1.1rem; opacity: .85; }
+
+/* Cards */
+.card { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); transition: transform .2s, box-shadow .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.13); }
+
+/* Category badge */
+.badge-economy { background-color: #28a745; }
+.badge-compact  { background-color: #17a2b8; }
+.badge-suv      { background-color: #fd7e14; }
+.badge-luxury   { background-color: #6f42c1; }
+.badge-van      { background-color: #6c757d; }
+
+/* Car icon placeholder */
+.car-icon { font-size: 3.5rem; color: var(--mg-primary); opacity: .15; }
+
+/* Price tag */
+.price-tag { font-size: 1.3rem; font-weight: 700; color: var(--mg-accent); }
+
+/* Section title */
+.section-title { font-weight: 700; color: var(--mg-primary); border-left: 4px solid var(--mg-accent); padding-left: .75rem; }
+
+/* Table */
+.table thead { background-color: var(--mg-primary); color: white; }
+
+/* Btn */
+.btn-mg { background-color: var(--mg-accent); border: none; color: white; }
+.btn-mg:hover { background-color: #c1121f; color: white; }
+
+/* Login modal brand */
+.modal-header { background-color: var(--mg-primary); color: white; }
+.modal-header .btn-close { filter: invert(1); }
+
+/* Toast */
+#toastContainer { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; }
+
+/* Location card */
+.location-card .bi { font-size: 2rem; color: var(--mg-primary); }
+
+/* Rental status */
+.rental-card { border-left: 4px solid var(--mg-primary); }

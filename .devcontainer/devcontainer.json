@@ -1,43 +1,27 @@
 {
   "name": "MobyGo Car Rental",
-  "image": "mcr.microsoft.com/devcontainers/java:21-jdk-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
-      "version": "21",
-      "installMaven": true,
-      "mavenVersion": "3.9"
-    },
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
+      "version": "17",
+      "installMaven": "true"
     }
   },
-  "forwardPorts": [8080, 5500],
+  "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {
-      "label": "Backend API",
-      "onAutoForward": "notify"
-    },
-    "5500": {
-      "label": "Frontend",
-      "onAutoForward": "openBrowser"
+      "label": "MobyGo API",
+      "onAutoForward": "openPreview",
+      "visibility": "public"
     }
   },
-  "postStartCommand": "bash .devcontainer/start.sh",
+  "postCreateCommand": "mvn dependency:resolve",
   "customizations": {
     "vscode": {
       "extensions": [
         "vscjava.vscode-java-pack",
-        "vmware.vscode-spring-boot",
-        "vscjava.vscode-spring-initializr",
-        "vscjava.vscode-spring-boot-dashboard",
-        "ritwickdey.LiveServer",
-        "humao.rest-client"
-      ],
-      "settings": {
-        "java.configuration.updateBuildConfiguration": "automatic",
-        "spring-boot.ls.java.home": "/usr/local/sdkman/candidates/java/current"
-      }
+        "vmware.vscode-spring-boot"
+      ]
     }
-  },
-  "remoteUser": "vscode"
+  }
 }
