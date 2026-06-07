@@ -20,11 +20,11 @@
 | Resource | URL |
 |----------|-----|
 | 🎥 **Video Presentation** | *To be added before final submission* |
-| 🧩 **Budibase / Frontend Export** | *To be added before final submission* |
+| 🧩 **Frontend Approach** | Pro-code frontend with HTML, CSS and JavaScript included in the repository |
 | 📄 **OpenAPI / Swagger Documentation** | `/swagger-ui.html` — available at `http://localhost:8080/swagger-ui.html` when running locally, or at the forwarded Codespaces URL after starting the app |
 | 💻 **GitHub Repository** | *To be added before final submission* |
 
-> **No public deployment is required for the assessment.** The project is intended to run locally or in GitHub Codespaces. The backend exposes a REST API that can be consumed by the included static frontend or by a Budibase frontend.
+> **No public deployment is required for the assessment.** The project is intended to run locally or in GitHub Codespaces. The backend exposes a REST API that is consumed by the included pro-code frontend implemented with HTML, CSS and JavaScript.
 
 ---
 
@@ -258,9 +258,9 @@ This seed data makes the demonstrator usable immediately after starting the appl
 
 The project contains a **static HTML/CSS/JavaScript frontend** served directly by Spring Boot from `src/main/resources/static`. The frontend consumes the REST API through JavaScript `fetch` calls.
 
-In addition, the REST API is designed so that it can also be consumed by **Budibase**. Budibase is planned as an additional low-code frontend artefact for the final submission. The export/link will be added before the final delivery.
+The project uses a **pro-code frontend approach** instead of the frontend. The frontend is implemented directly in the repository with HTML, CSS and JavaScript. This was chosen because the project requires custom UI behaviour, direct control over the user journey, and a reproducible demonstrator that runs together with the Spring Boot application.
 
-This approach keeps the backend and demonstrator reproducible because the included static frontend works immediately after starting the Spring Boot application. Budibase can then be connected to the same API base URL in Codespaces or locally.
+This approach keeps the frontend, backend and demonstrator reproducible because the included frontend works immediately after starting the Spring Boot application locally or in GitHub Codespaces.
 
 ## 3.2 Design System
 
@@ -371,7 +371,7 @@ The application follows a layered Spring Boot architecture with a frontend/backe
 
 ```
 ┌──────────────────────────────────────┐
-│ Static Frontend / Budibase Frontend   │  Tier 1
+│ Pro-code Frontend (HTML/CSS/JS)       │  Tier 1
 │ HTML, CSS, JavaScript, REST client    │
 └──────────────────┬───────────────────┘
                    │ REST / HTTP / JSON
@@ -403,7 +403,7 @@ The application follows a layered Spring Boot architecture with a frontend/backe
 | ORM | Spring Data JPA / Hibernate |
 | Security | Spring Security with HTTP Basic Auth |
 | API Documentation | SpringDoc OpenAPI 3 / Swagger UI |
-| Frontend | Static HTML, CSS, JavaScript; Budibase planned as low-code artefact |
+| Frontend | Pro-code frontend with static HTML, CSS and JavaScript |
 | Build Tool | Maven |
 | Runtime / Demo | Local machine or GitHub Codespaces |
 
@@ -543,9 +543,9 @@ mvn spring-boot:run
 ```
 
 5. Open the **Ports** tab in Codespaces.
-6. Make port `8080` public if the frontend or Budibase needs external access.
+6. Make port `8080` public if the frontend needs external access.
 7. Open the forwarded URL.
-8. Use the forwarded base URL for Swagger or Budibase, for example:
+8. Use the forwarded base URL for the web app or Swagger, for example:
 
 ```text
 https://<your-codespace>-8080.app.github.dev/swagger-ui.html
@@ -601,7 +601,7 @@ Expected result: The backend stores a rental and returns a JSON response that in
 | Version control | GitHub repository link to be added before final submission. |
 | Documentation/report | This README documents scenario, design, implementation, setup, and requirements coverage. |
 | Presentation video | Link to be added before final submission. |
-| Frontend artefact | Static frontend included; Budibase link/export to be added before final submission. |
+| Frontend artefact | Pro-code frontend included in the repository under `src/main/resources/static/`. |
 
 ---
 
@@ -621,4 +621,4 @@ Use the admin account to access protected endpoints and the admin dashboard.
 
 ## Final Notes
 
-MobyGo demonstrates a complete end-to-end web application with a clear business domain, responsive UI, REST API, business rules, persistence, authentication, and OpenAPI documentation. The project is prepared for demonstration through the included frontend, Swagger UI, H2 database console, and optional Budibase integration.
+MobyGo demonstrates a complete end-to-end web application with a clear business domain, responsive UI, REST API, business rules, persistence, authentication, and OpenAPI documentation. The project is prepared for demonstration through the included pro-code frontend, Swagger UI, and H2 database console.
