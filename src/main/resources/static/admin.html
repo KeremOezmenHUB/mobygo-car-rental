@@ -3,390 +3,372 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Admin – MobyGo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Admin — MobyGo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
   <link href="/css/style.css" rel="stylesheet"/>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar">
   <div class="container">
-    <a class="navbar-brand" href="/"><i class="bi bi-car-front-fill me-1"></i>Moby<span>Go</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/">
+      <span class="logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 5l8 7-8 7M12 5l8 7-8 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      Moby<span>Go</span>
+    </a>
+    <button class="navbar-toggler" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.navbar-collapse').classList.toggle('show')">
+      <i class="bi bi-list"></i>
     </button>
-    <div class="collapse navbar-collapse" id="nav">
+    <div class="navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Cars</a></li>
-        <li class="nav-item"><a class="nav-link" href="/locations.html">Locations</a></li>
-        <li class="nav-item"><a class="nav-link" href="/rentals.html">My Rentals</a></li>
-        <li class="nav-item" id="adminLink"><a class="nav-link active" href="/admin.html">Admin</a></li>
+        <li><a class="nav-link" href="/">Cars</a></li>
+        <li><a class="nav-link" href="/locations.html">Locations</a></li>
+        <li><a class="nav-link" href="/rentals.html">Book</a></li>
+        <li id="adminLink"><a class="nav-link active" href="/admin.html">Admin</a></li>
       </ul>
-      <div class="d-flex align-items-center gap-2">
-        <span class="text-white-50 small" id="userInfo"></span>
-        <button class="btn btn-outline-light btn-sm d-none" id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-        <button class="btn btn-outline-light btn-sm" id="logoutBtn" onclick="logout()">Logout</button>
+      <div class="nav-auth">
+        <span class="small" id="userInfo"></span>
+        <button class="btn btn-ghost btn-sm d-none" id="loginBtn" onclick="openModal('loginModal')">Sign in</button>
+        <button class="btn btn-mg btn-sm" id="logoutBtn" onclick="logout()">Sign out</button>
       </div>
     </div>
   </div>
 </nav>
 
-<div class="container py-4">
+<div class="container" style="padding-top:3rem;padding-bottom:4rem">
 
-  <!-- Access denied -->
-  <div id="accessDenied" class="text-center py-5 d-none">
-    <i class="bi bi-shield-lock display-3 text-danger d-block mb-3"></i>
-    <h4>Admin access required</h4>
-    <p class="text-muted">Please log in with an admin account.</p>
-    <button class="btn btn-mg" data-bs-toggle="modal" data-bs-target="#loginModal">Login as Admin</button>
+  <!-- Access Denied -->
+  <div id="accessDenied" class="d-none" style="text-align:center;padding:5rem 0">
+    <div class="access-denied-icon"><i class="bi bi-shield-lock"></i></div>
+    <h3 style="margin-bottom:.5rem">Admin access required</h3>
+    <p style="color:var(--muted);margin-bottom:1.5rem">Sign in with an admin account to manage the fleet.</p>
+    <button class="btn btn-primary btn-lg" onclick="openModal('loginModal')">
+      <i class="bi bi-lock me-2"></i>Sign in as admin
+    </button>
   </div>
 
-  <!-- Admin dashboard -->
+  <!-- Dashboard -->
   <div id="dashboard" class="d-none">
-    <h3 class="section-title mb-4"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h3>
 
-    <ul class="nav nav-tabs mb-4" id="adminTabs">
-      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabCars">
-        <i class="bi bi-car-front me-1"></i>Cars
-      </button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabLocations">
-        <i class="bi bi-geo-alt me-1"></i>Locations
-      </button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabRentals">
-        <i class="bi bi-calendar-check me-1"></i>All Rentals
-      </button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabUsers">
-        <i class="bi bi-people me-1"></i>Users
-      </button></li>
+    <div style="margin-bottom:2rem">
+      <h1 style="font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-0.03em;margin-bottom:.35rem">Dashboard</h1>
+      <p style="color:var(--muted)">Manage fleet, locations, rentals and users.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="row" style="margin-bottom:2.25rem">
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--accent-tint);color:var(--accent-strong)"><i class="bi bi-car-front-fill"></i></div>
+          <div><div class="stat-val" id="statCars">–</div><div class="stat-lbl">Total cars</div></div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--green-tint);color:oklch(0.45 0.12 156)"><i class="bi bi-geo-alt-fill"></i></div>
+          <div><div class="stat-val" id="statLocs">–</div><div class="stat-lbl">Locations</div></div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--amber-tint);color:oklch(0.5 0.11 70)"><i class="bi bi-calendar-check-fill"></i></div>
+          <div><div class="stat-val" id="statRentals">–</div><div class="stat-lbl">Rentals</div></div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:oklch(0.95 0.045 290);color:oklch(0.46 0.16 290)"><i class="bi bi-people-fill"></i></div>
+          <div><div class="stat-val" id="statUsers">–</div><div class="stat-lbl">Users</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav-tabs" id="adminTabs">
+      <li><button class="nav-link active" onclick="switchTab('tabCars',this)"><i class="bi bi-car-front me-1"></i>Cars</button></li>
+      <li><button class="nav-link" onclick="switchTab('tabLocations',this)"><i class="bi bi-geo-alt me-1"></i>Locations</button></li>
+      <li><button class="nav-link" onclick="switchTab('tabRentals',this)"><i class="bi bi-calendar-check me-1"></i>Rentals</button></li>
+      <li><button class="nav-link" onclick="switchTab('tabUsers',this)"><i class="bi bi-people me-1"></i>Users</button></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="card" style="margin-top:1.5rem">
+      <div class="card-body">
 
-      <!-- CARS TAB -->
-      <div class="tab-pane fade show active" id="tabCars">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0">Fleet Management</h5>
-          <button class="btn btn-mg btn-sm" data-bs-toggle="modal" data-bs-target="#addCarModal">
-            <i class="bi bi-plus-lg me-1"></i>Add Car
-          </button>
+        <!-- Cars -->
+        <div id="tabCars" class="tab-pane show">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem">
+            <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em">Fleet management</h3>
+            <button class="btn btn-primary btn-sm" onclick="openModal('addCarModal')"><i class="bi bi-plus-lg"></i>Add car</button>
+          </div>
+          <div style="overflow-x:auto"><table class="table"><thead><tr>
+            <th>ID</th><th>Brand</th><th>Model</th><th>Plate</th><th>Category</th><th>Location</th><th></th>
+          </tr></thead><tbody id="carsTable"></tbody></table></div>
         </div>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle rounded overflow-hidden">
-            <thead><tr>
-              <th>ID</th><th>Brand</th><th>Model</th><th>License Plate</th><th>Category</th><th>Location</th><th></th>
-            </tr></thead>
-            <tbody id="carsTable"></tbody>
-          </table>
+
+        <!-- Locations -->
+        <div id="tabLocations" class="tab-pane">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem">
+            <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em">Locations</h3>
+            <button class="btn btn-primary btn-sm" onclick="openModal('addLocationModal')"><i class="bi bi-plus-lg"></i>Add location</button>
+          </div>
+          <div style="overflow-x:auto"><table class="table"><thead><tr>
+            <th>ID</th><th>Name</th><th>City</th><th>Address</th><th></th>
+          </tr></thead><tbody id="locationsTable"></tbody></table></div>
         </div>
+
+        <!-- Rentals -->
+        <div id="tabRentals" class="tab-pane">
+          <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1.25rem">All rentals</h3>
+          <div style="overflow-x:auto"><table class="table"><thead><tr>
+            <th>ID</th><th>Customer</th><th>Car</th><th>From</th><th>To</th><th>Pickup</th><th>Drop-off</th><th>Total</th>
+          </tr></thead><tbody id="rentalsTable"></tbody></table></div>
+        </div>
+
+        <!-- Users -->
+        <div id="tabUsers" class="tab-pane">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem">
+            <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em">Users</h3>
+            <button class="btn btn-primary btn-sm" onclick="openModal('addUserModal')"><i class="bi bi-plus-lg"></i>Add user</button>
+          </div>
+          <div style="overflow-x:auto"><table class="table"><thead><tr>
+            <th>ID</th><th>Username</th><th>Role</th><th></th>
+          </tr></thead><tbody id="usersTable"></tbody></table></div>
+        </div>
+
       </div>
-
-      <!-- LOCATIONS TAB -->
-      <div class="tab-pane fade" id="tabLocations">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0">Locations</h5>
-          <button class="btn btn-mg btn-sm" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-            <i class="bi bi-plus-lg me-1"></i>Add Location
-          </button>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle rounded overflow-hidden">
-            <thead><tr><th>ID</th><th>Name</th><th>City</th><th>Address</th><th></th></tr></thead>
-            <tbody id="locationsTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- RENTALS TAB -->
-      <div class="tab-pane fade" id="tabRentals">
-        <h5 class="mb-3">All Rentals</h5>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle rounded overflow-hidden">
-            <thead><tr><th>ID</th><th>User</th><th>Car</th><th>From</th><th>To</th><th>Pickup</th><th>Dropoff</th><th>Total</th></tr></thead>
-            <tbody id="rentalsTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- USERS TAB -->
-      <div class="tab-pane fade" id="tabUsers">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0">Users</h5>
-          <button class="btn btn-mg btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="bi bi-plus-lg me-1"></i>Add User
-          </button>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle rounded overflow-hidden">
-            <thead><tr><th>ID</th><th>Username</th><th>Role</th><th></th></tr></thead>
-            <tbody id="usersTable"></tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
 <!-- Add Car Modal -->
-<div class="modal fade" id="addCarModal" tabindex="-1">
-  <div class="modal-dialog">
+<div id="addCarModal" style="display:none;position:fixed;inset:0;z-index:var(--z-modal);background:oklch(0.2 0.02 264 / 0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:100%;max-width:500px;margin:auto;padding:1rem">
     <div class="modal-content">
-      <div class="modal-header"><h5 class="modal-title">Add Car</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-header">
+        <span class="modal-title">Add car</span>
+        <button class="btn-close" aria-label="Close" onclick="closeModal('addCarModal')"></button>
+      </div>
       <div class="modal-body">
-        <div class="mb-2"><label class="form-label">Brand</label>
-          <input type="text" id="carBrand" class="form-control" placeholder="e.g. BMW"/></div>
-        <div class="mb-2"><label class="form-label">Model</label>
-          <input type="text" id="carModel" class="form-control" placeholder="e.g. X5"/></div>
-        <div class="mb-2"><label class="form-label">License Plate</label>
-          <input type="text" id="carPlate" class="form-control" placeholder="e.g. ZH 123 AA"/></div>
-        <div class="mb-2"><label class="form-label">Category</label>
-          <select id="carCategory" class="form-select">
-            <option>ECONOMY</option><option>COMPACT</option><option>SUV</option><option>LUXURY</option><option>VAN</option>
-          </select></div>
-        <div class="mb-2"><label class="form-label">Location</label>
-          <select id="carLocation" class="form-select"></select></div>
+        <div class="row">
+          <div class="col-12 col-sm-6"><label class="form-label" for="carBrand">Brand</label><input type="text" id="carBrand" class="form-control" placeholder="e.g. BMW"/></div>
+          <div class="col-12 col-sm-6"><label class="form-label" for="carModel">Model</label><input type="text" id="carModel" class="form-control" placeholder="e.g. X5"/></div>
+          <div class="col-12"><label class="form-label" for="carPlate">License plate</label><input type="text" id="carPlate" class="form-control" placeholder="e.g. ZH 123 AA"/></div>
+          <div class="col-12 col-sm-6"><label class="form-label" for="carCategory">Category</label>
+            <select id="carCategory" class="form-select"><option>ECONOMY</option><option>COMPACT</option><option>SUV</option><option>LUXURY</option><option>VAN</option></select></div>
+          <div class="col-12 col-sm-6"><label class="form-label" for="carLocation">Location</label><select id="carLocation" class="form-select"></select></div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-mg" onclick="addCar()">Save Car</button>
-      </div>
+      <div class="modal-footer"><button class="btn btn-primary" onclick="addCar()"><i class="bi bi-check-lg me-1"></i>Save car</button></div>
     </div>
   </div>
 </div>
 
 <!-- Add Location Modal -->
-<div class="modal fade" id="addLocationModal" tabindex="-1">
-  <div class="modal-dialog">
+<div id="addLocationModal" style="display:none;position:fixed;inset:0;z-index:var(--z-modal);background:oklch(0.2 0.02 264 / 0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:100%;max-width:460px;margin:auto;padding:1rem">
     <div class="modal-content">
-      <div class="modal-header"><h5 class="modal-title">Add Location</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-header">
+        <span class="modal-title">Add location</span>
+        <button class="btn-close" aria-label="Close" onclick="closeModal('addLocationModal')"></button>
+      </div>
       <div class="modal-body">
-        <div class="mb-2"><label class="form-label">Name</label>
-          <input type="text" id="locName" class="form-control" placeholder="e.g. MobyGo Geneva Airport"/></div>
-        <div class="mb-2"><label class="form-label">City</label>
-          <input type="text" id="locCity" class="form-control" placeholder="e.g. Geneva"/></div>
-        <div class="mb-2"><label class="form-label">Address</label>
-          <input type="text" id="locAddress" class="form-control" placeholder="e.g. Route de l'Aéroport 21"/></div>
+        <div class="form-group"><label class="form-label" for="locName">Name</label><input type="text" id="locName" class="form-control" placeholder="MobyGo Geneva Airport"/></div>
+        <div class="form-group"><label class="form-label" for="locCity">City</label><input type="text" id="locCity" class="form-control" placeholder="Geneva"/></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label" for="locAddress">Address</label><input type="text" id="locAddress" class="form-control" placeholder="Route de l'Aéroport 21"/></div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-mg" onclick="addLocation()">Save Location</button>
-      </div>
+      <div class="modal-footer"><button class="btn btn-primary" onclick="addLocation()"><i class="bi bi-check-lg me-1"></i>Save location</button></div>
     </div>
   </div>
 </div>
 
 <!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1">
-  <div class="modal-dialog">
+<div id="addUserModal" style="display:none;position:fixed;inset:0;z-index:var(--z-modal);background:oklch(0.2 0.02 264 / 0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:100%;max-width:420px;margin:auto;padding:1rem">
     <div class="modal-content">
-      <div class="modal-header"><h5 class="modal-title">Add User</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-header">
+        <span class="modal-title">Add user</span>
+        <button class="btn-close" aria-label="Close" onclick="closeModal('addUserModal')"></button>
+      </div>
       <div class="modal-body">
-        <div class="mb-2"><label class="form-label">Username</label>
-          <input type="text" id="newUsername" class="form-control"/></div>
-        <div class="mb-2"><label class="form-label">Password</label>
-          <input type="password" id="newPassword" class="form-control"/></div>
-        <div class="mb-2"><label class="form-label">Role</label>
-          <select id="newRole" class="form-select">
-            <option>USER</option><option>ADMIN</option>
-          </select></div>
+        <div class="form-group"><label class="form-label" for="newUsername">Username</label><input type="text" id="newUsername" class="form-control" autocomplete="off"/></div>
+        <div class="form-group"><label class="form-label" for="newPassword">Password</label><input type="password" id="newPassword" class="form-control" autocomplete="new-password"/></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label" for="newRole">Role</label>
+          <select id="newRole" class="form-select"><option>USER</option><option>ADMIN</option></select></div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-mg" onclick="addUser()">Save User</button>
-      </div>
+      <div class="modal-footer"><button class="btn btn-primary" onclick="addUser()"><i class="bi bi-check-lg me-1"></i>Save user</button></div>
     </div>
   </div>
 </div>
 
 <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1">
-  <div class="modal-dialog modal-sm">
+<div id="loginModal" style="display:none;position:fixed;inset:0;z-index:var(--z-modal);background:oklch(0.2 0.02 264 / 0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:100%;max-width:400px;margin:auto;padding:1rem">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><i class="bi bi-lock-fill me-2"></i>Admin Login</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <span class="modal-title">Admin sign in</span>
+        <button class="btn-close" aria-label="Close" onclick="closeModal('loginModal')"></button>
       </div>
       <div class="modal-body">
-        <div id="loginError" class="alert alert-danger d-none small"></div>
-        <div class="mb-3"><label class="form-label">Username</label>
-          <input type="text" id="loginUser" class="form-control" value="admin"/></div>
-        <div class="mb-3"><label class="form-label">Password</label>
-          <input type="password" id="loginPass" class="form-control"/></div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-mg w-100" onclick="doLogin()">Sign In</button>
+        <div id="loginError" class="alert alert-danger d-none"></div>
+        <div class="form-group"><label class="form-label" for="loginUser">Username</label><input type="text" id="loginUser" class="form-control" value="admin" autocomplete="username"/></div>
+        <div class="form-group" style="margin-bottom:0.5rem"><label class="form-label" for="loginPass">Password</label><input type="password" id="loginPass" class="form-control" autocomplete="current-password"/></div>
+        <button class="btn btn-mg w-100" style="padding:0.75rem;margin-top:1rem" onclick="doLogin()">Sign in</button>
       </div>
     </div>
   </div>
 </div>
 
 <div id="toastContainer"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/api.js"></script>
 <script>
-  updateNavAuth();
+const CAT_CSS = { ECONOMY:'cat-economy', COMPACT:'cat-compact', SUV:'cat-suv', LUXURY:'cat-luxury', VAN:'cat-van' };
+updateNavAuth();
 
-  function checkAccess() {
-    if (Auth.isLoggedIn()) {
-      document.getElementById('accessDenied').classList.add('d-none');
-      document.getElementById('dashboard').classList.remove('d-none');
-      loadAll();
-    } else {
-      document.getElementById('accessDenied').classList.remove('d-none');
-      document.getElementById('dashboard').classList.add('d-none');
-    }
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('#adminTabs .nav-link').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('show');
+  btn.classList.add('active');
+}
+
+function openModal(id) { const m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).style.display='none'; document.body.style.overflow=''; }
+document.querySelectorAll('[id$="Modal"]').forEach(m => m.addEventListener('click', e => { if(e.target===m) closeModal(m.id); }));
+
+function checkAccess() {
+  if (Auth.isLoggedIn()) {
+    document.getElementById('accessDenied').classList.add('d-none');
+    document.getElementById('dashboard').classList.remove('d-none');
+    loadAll();
+  } else {
+    document.getElementById('accessDenied').classList.remove('d-none');
+    document.getElementById('dashboard').classList.add('d-none');
   }
+}
 
-  async function loadAll() {
-    await Promise.all([loadCars(), loadLocations(), loadRentals(), loadUsers()]);
-    fillLocationSelect();
-  }
+async function loadAll() {
+  await Promise.all([loadCars(), loadLocations(), loadRentals(), loadUsers()]);
+  fillLocationSelect();
+}
 
-  let locationsCache = [];
+let locationsCache = [];
 
-  async function loadCars() {
-    const cars = await API.get('/cars');
-    document.getElementById('carsTable').innerHTML = cars.map(c => `
-      <tr>
-        <td>${c.id}</td><td>${c.brand}</td><td>${c.model}</td>
-        <td><code>${c.licensePlate}</code></td>
-        <td><span class="badge bg-secondary">${c.category}</span></td>
-        <td>${c.locationId || '–'}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteCar(${c.id})">
-          <i class="bi bi-trash"></i></button></td>
-      </tr>`).join('');
-  }
+async function loadCars() {
+  const cars = await API.get('/cars');
+  document.getElementById('statCars').textContent = cars.length;
+  document.getElementById('carsTable').innerHTML = cars.map(c => `<tr>
+    <td class="mono" style="color:var(--muted)">#${c.id}</td>
+    <td style="color:var(--ink);font-weight:700">${c.brand}</td>
+    <td>${c.model}</td>
+    <td><code>${c.licensePlate}</code></td>
+    <td><span class="car-cat-badge ${CAT_CSS[c.category]||''}">${c.category}</span></td>
+    <td style="color:var(--muted)">${c.locationId||'–'}</td>
+    <td><button class="btn-delete" aria-label="Delete car" onclick="deleteCar(${c.id})"><i class="bi bi-trash"></i></button></td>
+  </tr>`).join('');
+}
 
-  async function loadLocations() {
-    const locs = await API.get('/locations');
-    locationsCache = locs;
-    document.getElementById('locationsTable').innerHTML = locs.map(l => `
-      <tr>
-        <td>${l.id}</td><td>${l.name}</td><td>${l.city}</td><td>${l.address}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteLocation(${l.id})">
-          <i class="bi bi-trash"></i></button></td>
-      </tr>`).join('');
-  }
+async function loadLocations() {
+  const locs = await API.get('/locations');
+  locationsCache = locs;
+  document.getElementById('statLocs').textContent = locs.length;
+  document.getElementById('locationsTable').innerHTML = locs.map(l => `<tr>
+    <td class="mono" style="color:var(--muted)">#${l.id}</td>
+    <td style="color:var(--ink);font-weight:700">${l.name}</td>
+    <td>${l.city}</td>
+    <td style="color:var(--muted)">${l.address}</td>
+    <td><button class="btn-delete" aria-label="Delete location" onclick="deleteLocation(${l.id})"><i class="bi bi-trash"></i></button></td>
+  </tr>`).join('');
+}
 
-  async function loadRentals() {
-    const rentals = await API.get('/rentals');
-    document.getElementById('rentalsTable').innerHTML = rentals.map(r => `
-      <tr>
-        <td>${r.id}</td>
-        <td>${r.user?.username || '–'}</td>
-        <td>${r.car?.brand || ''} ${r.car?.model || ''}</td>
-        <td>${r.startDate}</td><td>${r.endDate}</td>
-        <td>${r.pickupLocation?.name || '–'}</td>
-        <td>${r.dropoffLocation?.name || '–'}</td>
-        <td><strong>CHF ${r.totalPrice}</strong></td>
-      </tr>`).join('');
-  }
+async function loadRentals() {
+  const rentals = await API.get('/rentals');
+  document.getElementById('statRentals').textContent = rentals.length;
+  document.getElementById('rentalsTable').innerHTML = rentals.map(r => `<tr>
+    <td class="mono" style="color:var(--muted)">#${r.id}</td>
+    <td style="color:var(--ink)">${r.customerName||r.user?.username||'–'}</td>
+    <td>${r.car?.brand||''} ${r.car?.model||''}</td>
+    <td class="mono">${r.startDate}</td><td class="mono">${r.endDate}</td>
+    <td style="color:var(--muted)">${r.pickupLocation?.name||'–'}</td>
+    <td style="color:var(--muted)">${r.dropoffLocation?.name||'–'}</td>
+    <td><strong class="mono" style="color:var(--ink)">CHF ${r.totalPrice}</strong></td>
+  </tr>`).join('');
+}
 
-  async function loadUsers() {
+async function loadUsers() {
+  const users = await API.get('/users');
+  document.getElementById('statUsers').textContent = users.length;
+  document.getElementById('usersTable').innerHTML = users.map(u => `<tr>
+    <td class="mono" style="color:var(--muted)">#${u.id}</td>
+    <td style="color:var(--ink);font-weight:700">${u.username}</td>
+    <td><span class="car-cat-badge ${u.role==='ADMIN'?'cat-suv':'cat-compact'}">${u.role}</span></td>
+    <td><button class="btn-delete" aria-label="Delete user" onclick="deleteUser(${u.id})"><i class="bi bi-trash"></i></button></td>
+  </tr>`).join('');
+}
+
+function fillLocationSelect() {
+  const sel = document.getElementById('carLocation');
+  sel.innerHTML = '';
+  locationsCache.forEach(l => { const o=document.createElement('option'); o.value=l.id; o.textContent=l.name; sel.appendChild(o); });
+}
+
+async function addCar() {
+  try {
+    await API.post('/cars', { brand:document.getElementById('carBrand').value, model:document.getElementById('carModel').value,
+      licensePlate:document.getElementById('carPlate').value, category:document.getElementById('carCategory').value,
+      location:{id:parseInt(document.getElementById('carLocation').value)} });
+    closeModal('addCarModal'); showToast('Car added'); loadCars();
+  } catch(e) { showToast(e.message,'danger'); }
+}
+
+async function addLocation() {
+  try {
+    await API.post('/locations', { name:document.getElementById('locName').value, city:document.getElementById('locCity').value, address:document.getElementById('locAddress').value });
+    closeModal('addLocationModal'); showToast('Location added'); loadLocations();
+  } catch(e) { showToast(e.message,'danger'); }
+}
+
+async function addUser() {
+  try {
+    await API.post('/users', { username:document.getElementById('newUsername').value, password:document.getElementById('newPassword').value, role:document.getElementById('newRole').value });
+    closeModal('addUserModal'); showToast('User added'); loadUsers();
+  } catch(e) { showToast(e.message,'danger'); }
+}
+
+async function deleteCar(id) {
+  if (!confirm('Delete this car?')) return;
+  try { await API.delete(`/cars/${id}`); showToast('Car deleted'); loadCars(); } catch(e) { showToast(e.message,'danger'); }
+}
+async function deleteLocation(id) {
+  if (!confirm('Delete this location?')) return;
+  try { await API.delete(`/locations/${id}`); showToast('Location deleted'); loadLocations(); } catch(e) { showToast(e.message,'danger'); }
+}
+async function deleteUser(id) {
+  if (!confirm('Delete this user?')) return;
+  try { await API.delete(`/users/${id}`); showToast('User deleted'); loadUsers(); } catch(e) { showToast(e.message,'danger'); }
+}
+
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  errEl.classList.add('d-none');
+  try {
+    Auth.save(username, password);
     const users = await API.get('/users');
-    document.getElementById('usersTable').innerHTML = users.map(u => `
-      <tr>
-        <td>${u.id}</td><td>${u.username}</td>
-        <td><span class="badge ${u.role==='ADMIN'?'bg-danger':'bg-primary'}">${u.role}</span></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">
-          <i class="bi bi-trash"></i></button></td>
-      </tr>`).join('');
+    const me = users.find(u => u.username === username);
+    if (me) sessionStorage.setItem('mg_role', me.role);
+    closeModal('loginModal'); updateNavAuth(); checkAccess();
+    showToast(`Welcome, ${username}!`);
+  } catch(e) {
+    Auth.clear();
+    errEl.textContent = 'Invalid username or password';
+    errEl.classList.remove('d-none');
   }
+}
 
-  function fillLocationSelect() {
-    const sel = document.getElementById('carLocation');
-    sel.innerHTML = '';
-    locationsCache.forEach(l => {
-      const o = document.createElement('option');
-      o.value = l.id; o.textContent = l.name;
-      sel.appendChild(o);
-    });
-  }
-
-  async function addCar() {
-    try {
-      await API.post('/cars', {
-        brand: document.getElementById('carBrand').value,
-        model: document.getElementById('carModel').value,
-        licensePlate: document.getElementById('carPlate').value,
-        category: document.getElementById('carCategory').value,
-        location: { id: parseInt(document.getElementById('carLocation').value) }
-      });
-      bootstrap.Modal.getInstance(document.getElementById('addCarModal')).hide();
-      showToast('Car added successfully');
-      loadCars();
-    } catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function addLocation() {
-    try {
-      await API.post('/locations', {
-        name: document.getElementById('locName').value,
-        city: document.getElementById('locCity').value,
-        address: document.getElementById('locAddress').value
-      });
-      bootstrap.Modal.getInstance(document.getElementById('addLocationModal')).hide();
-      showToast('Location added successfully');
-      loadLocations();
-    } catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function addUser() {
-    try {
-      await API.post('/users', {
-        username: document.getElementById('newUsername').value,
-        password: document.getElementById('newPassword').value,
-        role: document.getElementById('newRole').value
-      });
-      bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
-      showToast('User added successfully');
-      loadUsers();
-    } catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function deleteCar(id) {
-    if (!confirm('Delete this car?')) return;
-    try { await API.delete(`/cars/${id}`); showToast('Car deleted'); loadCars(); }
-    catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function deleteLocation(id) {
-    if (!confirm('Delete this location?')) return;
-    try { await API.delete(`/locations/${id}`); showToast('Location deleted'); loadLocations(); }
-    catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function deleteUser(id) {
-    if (!confirm('Delete this user?')) return;
-    try { await API.delete(`/users/${id}`); showToast('User deleted'); loadUsers(); }
-    catch (e) { showToast(e.message, 'danger'); }
-  }
-
-  async function doLogin() {
-    const username = document.getElementById('loginUser').value.trim();
-    const password = document.getElementById('loginPass').value;
-    const errEl = document.getElementById('loginError');
-    errEl.classList.add('d-none');
-    try {
-      Auth.save(username, password);
-      const users = await API.get('/users');
-      const me = users.find(u => u.username === username);
-      if (me) sessionStorage.setItem('mg_role', me.role);
-      bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-      updateNavAuth();
-      checkAccess();
-      showToast(`Welcome, ${username}!`);
-    } catch (e) {
-      Auth.clear();
-      errEl.textContent = 'Invalid username or password';
-      errEl.classList.remove('d-none');
-    }
-  }
-
-  checkAccess();
+checkAccess();
 </script>
 </body>
 </html>
