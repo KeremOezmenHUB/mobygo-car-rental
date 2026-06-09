@@ -51,6 +51,16 @@ public class SecurityConfig {
                 ).permitAll()
                 // H2 console (dev only)
                 .requestMatchers("/h2-console/**").permitAll()
+                // Any signed-in user can read their own profile (must precede the admin /api/users rules)
+                .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
+                // Admin-only: managing the fleet, locations, users and viewing all rentals
+                .requestMatchers(HttpMethod.POST,   "/api/cars/**", "/api/locations/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,    "/api/cars/**", "/api/locations/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/cars/**", "/api/locations/**", "/api/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,  "/api/users").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,  "/api/rentals").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,  "/api/rentals/user/**").authenticated()
                 // Everything else requires Basic Auth
                 .anyRequest().authenticated()
             )

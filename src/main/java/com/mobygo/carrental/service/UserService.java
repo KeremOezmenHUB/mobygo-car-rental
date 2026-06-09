@@ -32,6 +32,11 @@ public class UserService implements UserDetailsService {
             .orElseThrow(() -> new ResourceNotFoundException("User", id));
     }
 
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+    }
+
     public User createUser(User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Username already taken: " + user.getUsername());

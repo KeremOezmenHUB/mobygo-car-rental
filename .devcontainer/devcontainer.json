@@ -15,7 +15,7 @@
       "visibility": "public"
     }
   },
-  "postCreateCommand": "mvn dependency:resolve",
+  "postCreateCommand": "chmod +x mvnw && ./mvnw -q dependency:resolve",
   "customizations": {
     "vscode": {
       "extensions": [

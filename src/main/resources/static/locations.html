@@ -3,146 +3,181 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Locations – MobyGo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Locations — MobyGo</title>
+  <meta name="description" content="MobyGo pickup and drop-off points at airports, train stations and city centres across Switzerland."/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
   <link href="/css/style.css" rel="stylesheet"/>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar">
   <div class="container">
-    <a class="navbar-brand" href="/"><i class="bi bi-car-front-fill me-1"></i>Moby<span>Go</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/">
+      <span class="logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 5l8 7-8 7M12 5l8 7-8 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      Moby<span>Go</span>
+    </a>
+    <button class="navbar-toggler" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.navbar-collapse').classList.toggle('show')">
+      <i class="bi bi-list"></i>
     </button>
-    <div class="collapse navbar-collapse" id="nav">
+    <div class="navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Cars</a></li>
-        <li class="nav-item"><a class="nav-link active" href="/locations.html">Locations</a></li>
-        <li class="nav-item"><a class="nav-link" href="/rentals.html">My Rentals</a></li>
-        <li class="nav-item d-none" id="adminLink"><a class="nav-link" href="/admin.html">Admin</a></li>
+        <li><a class="nav-link" href="/">Cars</a></li>
+        <li><a class="nav-link active" href="/locations.html">Locations</a></li>
+        <li><a class="nav-link" href="/rentals.html">Book</a></li>
+        <li class="d-none" id="adminLink"><a class="nav-link" href="/admin.html">Admin</a></li>
       </ul>
-      <div class="d-flex align-items-center gap-2">
-        <span class="text-white-50 small" id="userInfo"></span>
-        <button class="btn btn-outline-light btn-sm" id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-        <button class="btn btn-outline-light btn-sm d-none" id="logoutBtn" onclick="logout()">Logout</button>
+      <div class="nav-auth">
+        <span class="small" id="userInfo"></span>
+        <button class="btn btn-ghost btn-sm" id="loginBtn" onclick="openModal('loginModal')"><i class="bi bi-person"></i>Sign in</button>
+        <button class="btn btn-mg btn-sm d-none" id="logoutBtn" onclick="logout()">Sign out</button>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="container text-center">
-    <h1><i class="bi bi-geo-alt-fill me-2"></i>Our Locations</h1>
-    <p>Find MobyGo at airports, train stations, and city centres across Switzerland</p>
+<section class="hero" style="padding-bottom:clamp(2rem,4vw,3rem)">
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="container">
+    <div class="pill-badge rise rise-1"><i class="bi bi-geo-alt-fill" style="color:var(--accent-strong)"></i>Pick-up &amp; drop-off</div>
+    <h1 class="rise rise-1" style="margin-top:1.25rem;max-width:16ch">Find us across <span class="hl">Switzerland.</span></h1>
+    <p class="lead rise rise-2" style="margin-top:1.25rem">Conveniently located at airports, train stations and city centres. Collect and return wherever your trip begins.</p>
   </div>
 </section>
 
-<!-- Locations -->
-<div class="container py-5">
-  <div class="row g-4" id="locationsGrid">
-    <div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">All locations</h2>
+      <p class="section-subtitle" id="locCount">Loading…</p>
+    </div>
+    <div class="row" id="locationsGrid">
+      <div class="col-12" style="text-align:center;padding:4rem 0"><div class="spinner-border"></div></div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1">
-  <div class="modal-dialog modal-sm">
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <div class="foot-brand">Moby<span>Go</span></div>
+      <small>Car rental across Switzerland.</small>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/">Cars</a>
+      <a href="/locations.html">Locations</a>
+      <a href="/rentals.html">Book</a>
+    </nav>
+    <small id="footYear" class="mono"></small>
+  </div>
+</footer>
+
+<div id="loginModal" style="display:none;position:fixed;inset:0;z-index:var(--z-modal);background:oklch(0.2 0.02 264 / 0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+  <div style="width:100%;max-width:400px;margin:auto;padding:1rem">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><i class="bi bi-lock-fill me-2"></i>Login</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <span class="modal-title">Sign in</span>
+        <button class="btn-close" aria-label="Close" onclick="closeModal('loginModal')"></button>
       </div>
       <div class="modal-body">
-        <div id="loginError" class="alert alert-danger d-none small"></div>
-        <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input type="text" id="loginUser" class="form-control"/>
+        <div id="loginError" class="alert alert-danger d-none"></div>
+        <div class="form-group">
+          <label class="form-label" for="loginUser">Username</label>
+          <input type="text" id="loginUser" class="form-control" autocomplete="username"/>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" id="loginPass" class="form-control"/>
+        <div class="form-group" style="margin-bottom:0.5rem">
+          <label class="form-label" for="loginPass">Password</label>
+          <input type="password" id="loginPass" class="form-control" autocomplete="current-password"/>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-mg w-100" onclick="doLogin()">Sign In</button>
+        <button class="btn btn-mg w-100" style="padding:0.75rem;margin-top:1rem" onclick="doLogin()">Sign in</button>
       </div>
     </div>
   </div>
 </div>
 
 <div id="toastContainer"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/api.js"></script>
 <script>
-  updateNavAuth();
+updateNavAuth();
+document.getElementById('footYear').textContent = new Date().getFullYear();
 
-  async function init() {
-    try {
-      const locations = await API.get('/locations');
-      renderLocations(locations);
-    } catch (e) {
-      document.getElementById('locationsGrid').innerHTML =
-        `<div class="col-12"><div class="alert alert-danger">Could not load locations: ${e.message}</div></div>`;
-    }
+const LOC_ICONS = ['bi-airplane-fill','bi-train-front-fill','bi-buildings-fill','bi-geo-alt-fill','bi-signpost-2-fill'];
+const LOC_COLORS = [
+  {bg:'var(--accent-tint)',   border:'var(--accent-line)',          icon:'var(--accent-strong)'},
+  {bg:'var(--green-tint)',    border:'oklch(0.85 0.08 156)',        icon:'oklch(0.45 0.12 156)'},
+  {bg:'var(--amber-tint)',    border:'oklch(0.86 0.08 75)',         icon:'oklch(0.5 0.11 70)'},
+  {bg:'oklch(0.95 0.045 290)',border:'oklch(0.86 0.08 290)',        icon:'oklch(0.46 0.16 290)'},
+  {bg:'oklch(0.95 0.05 200)', border:'oklch(0.85 0.08 200)',        icon:'oklch(0.46 0.11 200)'},
+];
+
+async function init() {
+  try {
+    const locations = await API.get('/locations');
+    document.getElementById('locCount').textContent = `${locations.length} location${locations.length!==1?'s':''} across the country`;
+    renderLocations(locations);
+  } catch(e) {
+    document.getElementById('locationsGrid').innerHTML =
+      `<div class="col-12"><div class="alert alert-danger">Could not load locations: ${e.message}</div></div>`;
   }
+}
 
-  function renderLocations(locations) {
-    const grid = document.getElementById('locationsGrid');
-    if (!locations.length) {
-      grid.innerHTML = '<div class="col-12 text-center text-muted">No locations found</div>';
-      return;
-    }
-    const icons = ['airplane', 'train-front', 'building'];
-    grid.innerHTML = locations.map((loc, i) => `
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 location-card">
-          <div class="card-body">
-            <div class="d-flex align-items-start gap-3 mb-3">
-              <div class="bg-light rounded-3 p-3">
-                <i class="bi bi-${icons[i % 3]} location-card .bi"></i>
-              </div>
-              <div>
-                <h5 class="card-title mb-1">${loc.name}</h5>
-                <span class="badge bg-primary">${loc.city}</span>
-              </div>
-            </div>
-            <p class="text-muted small mb-3">
-              <i class="bi bi-geo-alt me-1"></i>${loc.address}
-            </p>
-            <a href="/?locationId=${loc.id}" class="btn btn-outline-primary btn-sm">
-              <i class="bi bi-car-front me-1"></i>View Available Cars
-            </a>
+function renderLocations(locations) {
+  const grid = document.getElementById('locationsGrid');
+  if (!locations.length) {
+    grid.innerHTML = '<div class="col-12" style="text-align:center;color:var(--muted)">No locations found</div>';
+    return;
+  }
+  grid.innerHTML = locations.map((loc, i) => {
+    const col = LOC_COLORS[i % LOC_COLORS.length];
+    const icon = LOC_ICONS[i % LOC_ICONS.length];
+    return `<div class="col-12 col-md-6 col-lg-4">
+      <div class="location-card">
+        <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.1rem">
+          <div class="loc-icon" style="background:${col.bg};border:1px solid ${col.border}">
+            <i class="bi ${icon}" style="color:${col.icon}"></i>
+          </div>
+          <div>
+            <div style="font-size:1.05rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:.4rem">${loc.name}</div>
+            <span class="car-cat-badge cat-compact">${loc.city}</span>
           </div>
         </div>
-      </div>`).join('');
-  }
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:1.25rem;display:flex;gap:.4rem;align-items:flex-start">
+          <i class="bi bi-geo-alt" style="margin-top:.15rem"></i><span>${loc.address}</span>
+        </p>
+        <a href="/?locationId=${loc.id}" class="btn btn-outline-primary btn-sm w-100" style="margin-top:auto">
+          <i class="bi bi-car-front"></i>View available cars
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-  async function doLogin() {
-    const username = document.getElementById('loginUser').value.trim();
-    const password = document.getElementById('loginPass').value;
-    const errEl = document.getElementById('loginError');
-    errEl.classList.add('d-none');
-    try {
-      Auth.save(username, password);
-      const users = await API.get('/users');
-      const me = users.find(u => u.username === username);
-      if (me) sessionStorage.setItem('mg_role', me.role);
-      bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-      updateNavAuth();
-      showToast(`Welcome, ${username}!`);
-    } catch (e) {
-      Auth.clear();
-      errEl.textContent = 'Invalid username or password';
-      errEl.classList.remove('d-none');
-    }
-  }
+function openModal(id) { const m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).style.display='none'; document.body.style.overflow=''; }
+document.getElementById('loginModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal('loginModal'); });
 
-  init();
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  errEl.classList.add('d-none');
+  try {
+    Auth.save(username, password);
+    const me = await API.get('/users/me');
+    if (me) sessionStorage.setItem('mg_role', me.role);
+    closeModal('loginModal');
+    updateNavAuth();
+    showToast(`Welcome, ${username}!`);
+  } catch(e) {
+    Auth.clear();
+    errEl.textContent = 'Invalid username or password';
+    errEl.classList.remove('d-none');
+  }
+}
+
+init();
 </script>
 </body>
 </html>
