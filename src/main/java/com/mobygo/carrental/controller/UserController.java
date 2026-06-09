@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -21,6 +22,12 @@ public class UserController {
     @Operation(summary = "List all users (admin)")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get the currently authenticated user")
+    public ResponseEntity<User> me(Authentication auth) {
+        return ResponseEntity.ok(userService.getByUsername(auth.getName()));
     }
 
     @PostMapping

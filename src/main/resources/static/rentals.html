@@ -330,8 +330,7 @@ async function doLogin() {
   errEl.classList.add('d-none');
   try {
     Auth.save(username, password);
-    const users = await API.get('/users');
-    const me = users.find(u => u.username === username);
+    const me = await API.get('/users/me');
     if (me) sessionStorage.setItem('mg_role', me.role);
     closeModal('loginModal');
     updateNavAuth();

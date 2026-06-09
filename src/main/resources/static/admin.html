@@ -238,7 +238,7 @@ function closeModal(id) { document.getElementById(id).style.display='none'; docu
 document.querySelectorAll('[id$="Modal"]').forEach(m => m.addEventListener('click', e => { if(e.target===m) closeModal(m.id); }));
 
 function checkAccess() {
-  if (Auth.isLoggedIn()) {
+  if (Auth.isLoggedIn() && Auth.isAdmin()) {
     document.getElementById('accessDenied').classList.add('d-none');
     document.getElementById('dashboard').classList.remove('d-none');
     loadAll();
@@ -356,11 +356,10 @@ async function doLogin() {
   errEl.classList.add('d-none');
   try {
     Auth.save(username, password);
-    const users = await API.get('/users');
-    const me = users.find(u => u.username === username);
+    const me = await API.get('/users/me');
     if (me) sessionStorage.setItem('mg_role', me.role);
     closeModal('loginModal'); updateNavAuth(); checkAccess();
-    showToast(`Welcome, ${username}!`);
+    showToast(Auth.isAdmin() ? `Welcome, ${username}!` : 'Signed in, but this account is not an admin');
   } catch(e) {
     Auth.clear();
     errEl.textContent = 'Invalid username or password';
