@@ -164,9 +164,8 @@ async function doLogin() {
   const errEl = document.getElementById('loginError');
   errEl.classList.add('d-none');
   try {
-    Auth.save(username, password);
-    const me = await API.get('/users/me');
-    if (me) sessionStorage.setItem('mg_role', me.role);
+    const res = await API.post('/auth/login', { username, password });
+    Auth.save(res.token, res.username, res.role);
     closeModal('loginModal');
     updateNavAuth();
     showToast(`Welcome, ${username}!`);

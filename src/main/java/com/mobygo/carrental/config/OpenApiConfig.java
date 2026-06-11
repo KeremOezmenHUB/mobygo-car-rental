@@ -15,23 +15,29 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI mobyGoOpenAPI() {
-        final String securitySchemeName = "basicAuth";
         return new OpenAPI()
             .info(new Info()
                 .title("MobyGo Car Rental API")
                 .description("REST API for the MobyGo car rental platform. " +
-                    "Manage cars, locations, rentals and users. " +
-                    "Public endpoints for browsing; admin endpoints require Basic Auth.")
+                    "Manage cars, locations, rentals and users. Public endpoints for browsing; " +
+                    "admin endpoints require authentication. Log in via POST /api/auth/login to get " +
+                    "a JWT, then use 'Authorize' with bearerAuth. HTTP Basic is also supported.")
                 .version("1.0.0")
                 .contact(new Contact()
                     .name("MobyGo Team")
                     .email("team@mobygo.ch"))
                 .license(new License().name("MIT")))
-            .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+            .addSecurityItem(new SecurityRequirement().addList("bearerAuth").addList("basicAuth"))
             .components(new Components()
-                .addSecuritySchemes(securitySchemeName,
+                .addSecuritySchemes("bearerAuth",
                     new SecurityScheme()
-                        .name(securitySchemeName)
+                        .name("bearerAuth")
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT"))
+                .addSecuritySchemes("basicAuth",
+                    new SecurityScheme()
+                        .name("basicAuth")
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("basic")));
     }

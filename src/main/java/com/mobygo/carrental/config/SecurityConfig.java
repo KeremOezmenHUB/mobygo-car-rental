@@ -1,16 +1,21 @@
 package com.mobygo.carrental.config;
 
+import com.mobygo.carrental.security.JwtAuthenticationFilter;
+import com.mobygo.carrental.security.JwtService;
 import com.mobygo.carrental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -22,12 +27,20 @@ public class SecurityConfig {
     @Lazy
     private UserService userService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
@@ -42,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/*.html", "/css/**", "/js/**", "/images/**").permitAll()
                 // Public API endpoints
                 .requestMatchers("/api/", "/api/rates").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/cars/**", "/api/locations/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/rentals").permitAll()
                 // Swagger UI & OpenAPI docs
@@ -65,6 +79,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .httpBasic(basic -> {})
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
         return http.build();
     }
