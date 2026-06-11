@@ -1,25 +1,25 @@
 const API_BASE = '/api';
 
 const Auth = {
-  save(username, password) {
+  // Stores the JWT returned by POST /api/auth/login (no password kept client-side)
+  save(token, username, role) {
+    sessionStorage.setItem('mg_token', token);
     sessionStorage.setItem('mg_user', username);
-    sessionStorage.setItem('mg_pass', password);
-    sessionStorage.setItem('mg_role', '');
+    sessionStorage.setItem('mg_role', role || '');
   },
   clear() {
+    sessionStorage.removeItem('mg_token');
     sessionStorage.removeItem('mg_user');
-    sessionStorage.removeItem('mg_pass');
     sessionStorage.removeItem('mg_role');
   },
   getUsername() { return sessionStorage.getItem('mg_user'); },
   getRole()     { return sessionStorage.getItem('mg_role'); },
-  isLoggedIn()  { return !!sessionStorage.getItem('mg_user'); },
+  getToken()    { return sessionStorage.getItem('mg_token'); },
+  isLoggedIn()  { return !!sessionStorage.getItem('mg_token'); },
   isAdmin()     { return sessionStorage.getItem('mg_role') === 'ADMIN'; },
   header() {
-    const u = sessionStorage.getItem('mg_user');
-    const p = sessionStorage.getItem('mg_pass');
-    if (!u || !p) return {};
-    return { 'Authorization': 'Basic ' + btoa(u + ':' + p) };
+    const t = sessionStorage.getItem('mg_token');
+    return t ? { 'Authorization': 'Bearer ' + t } : {};
   }
 };
 
