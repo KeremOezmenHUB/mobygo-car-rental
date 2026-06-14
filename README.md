@@ -19,10 +19,10 @@
 
 | Resource | URL |
 |----------|-----|
-| 🎥 **Video Presentation** | *To be added before final submission* |
+| 🎥 **Video Presentation** | [MobyGo video presentation](https://fhnw365-my.sharepoint.com/personal/ifin_anwar_students_fhnw_ch/_layouts/15/stream.aspx?id=%2Fpersonal%2Fifin%5Fanwar%5Fstudents%5Ffhnw%5Fch%2FDocuments%2FMobbyGo%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E3b5a8d5a%2D1fbc%2D4eb2%2D9fe7%2D02412e530e66) |
 | 🧩 **Frontend Approach** | Pro-code frontend with HTML, CSS and JavaScript included in the repository |
 | 📄 **OpenAPI / Swagger Documentation** | `/swagger-ui.html` — available at `http://localhost:8080/swagger-ui.html` when running locally, or at the forwarded Codespaces URL after starting the app |
-| 💻 **GitHub Repository** | *To be added before final submission* |
+| 💻 **GitHub Repository** | [mobygo-car-rental](https://github.com/KeremOezmenHUB/mobygo-car-rental) |
 
 > **No public deployment is required for the assessment.** The project is intended to run locally or in GitHub Codespaces. The backend exposes a REST API that is consumed by the included pro-code frontend implemented with HTML, CSS and JavaScript.
 
@@ -258,7 +258,7 @@ This seed data makes the demonstrator usable immediately after starting the appl
 
 The project contains a **static HTML/CSS/JavaScript frontend** served directly by Spring Boot from `src/main/resources/static`. The frontend consumes the REST API through JavaScript `fetch` calls.
 
-The project uses a **pro-code frontend approach** instead of the frontend. The frontend is implemented directly in the repository with HTML, CSS and JavaScript. This was chosen because the project requires custom UI behaviour, direct control over the user journey, and a reproducible demonstrator that runs together with the Spring Boot application.
+The project uses a **pro-code frontend approach** instead of a low-code frontend. The frontend is implemented directly in the repository with HTML, CSS and JavaScript. This was chosen because the project requires custom UI behaviour, direct control over the user journey, and a reproducible demonstrator that runs together with the Spring Boot application.
 
 This approach keeps the frontend, backend and demonstrator reproducible because the included frontend works immediately after starting the Spring Boot application locally or in GitHub Codespaces.
 
@@ -506,9 +506,9 @@ The project uses BCrypt password encoding. Users are stored in the H2 database a
 ### Start the application
 
 ```bash
-git clone <repository-url>
-cd mobygo-car-rental-main
-mvn spring-boot:run
+git clone https://github.com/KeremOezmenHUB/mobygo-car-rental.git
+cd mobygo-car-rental
+./mvnw spring-boot:run
 ```
 
 Open the application:
@@ -539,7 +539,7 @@ H2 Console settings:
 4. Start the backend:
 
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 5. Open the **Ports** tab in Codespaces.
@@ -598,9 +598,9 @@ Expected result: The backend stores a rental and returns a JSON response that in
 | Business logic | Price calculation, double-booking prevention, date validation, customer validation. |
 | API-level security | Spring Security with HTTP Basic Auth. |
 | OpenAPI documentation | Swagger UI available at `/swagger-ui.html`. |
-| Version control | GitHub repository link to be added before final submission. |
+| Version control | GitHub repository available at [mobygo-car-rental](https://github.com/KeremOezmenHUB/mobygo-car-rental). |
 | Documentation/report | This README documents scenario, design, implementation, setup, and requirements coverage. |
-| Presentation video | Link to be added before final submission. |
+| Presentation video | Video presentation available at [MobyGo video presentation](https://fhnw365-my.sharepoint.com/personal/ifin_anwar_students_fhnw_ch/_layouts/15/stream.aspx?id=%2Fpersonal%2Fifin%5Fanwar%5Fstudents%5Ffhnw%5Fch%2FDocuments%2FMobbyGo%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E3b5a8d5a%2D1fbc%2D4eb2%2D9fe7%2D02412e530e66). |
 | Frontend artefact | Pro-code frontend included in the repository under `src/main/resources/static/`. |
 
 ---
