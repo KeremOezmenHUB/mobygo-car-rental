@@ -19,7 +19,7 @@
 
 | Resource | URL |
 |----------|-----|
-| 🎥 **Video Presentation** | [MobyGo video presentation](https://fhnw365-my.sharepoint.com/personal/ifin_anwar_students_fhnw_ch/_layouts/15/stream.aspx?id=%2Fpersonal%2Fifin%5Fanwar%5Fstudents%5Ffhnw%5Fch%2FDocuments%2FMobbyGo%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E3b5a8d5a%2D1fbc%2D4eb2%2D9fe7%2D02412e530e66) |
+| 🎥 **Video Presentation** | [MobyGo video presentation] |
 | 🧩 **Frontend Approach** | Pro-code frontend with HTML, CSS and JavaScript included in the repository |
 | 📄 **OpenAPI / Swagger Documentation** | `/swagger-ui.html` — available at `http://localhost:8080/swagger-ui.html` when running locally, or at the forwarded Codespaces URL after starting the app |
 | 💻 **GitHub Repository** | [mobygo-car-rental](https://github.com/KeremOezmenHUB/mobygo-car-rental) |
